@@ -4,7 +4,7 @@ import datetime
 
 access = "your-access"
 secret = "your-secret"
-flag = True #1번만 매수
+flag = True #1번만 매수 저장되라고
 
 df_public = pyupbit.get_ohlcv("KRW-XRP", interval="day", count=2)
 ago_range = df_public.iloc[0]['high'] - df_public.iloc[0]['low'] #전일변동성
