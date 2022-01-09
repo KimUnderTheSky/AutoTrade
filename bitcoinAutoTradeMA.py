@@ -4,7 +4,7 @@ import datetime
 
 access = "your-access"
 secret = "your-secret"
-
+flag = True
 
 df_public = pyupbit.get_ohlcv("KRW-XRP", interval="day", count=2)
 ago_range = df_public.iloc[0]['high'] - df_public.iloc[0]['low'] #전일변동성
@@ -59,13 +59,18 @@ while True:
             current_price = get_current_price("KRW-XRP")
             if target_price < current_price and ma5 < current_price: #현재가가 target price이상이고 5일 이평선 이상일때
                 krw = get_balance("KRW")
-                if krw > 5000: #krw가 내 잔고 내 전재산
-                    upbit.buy_market_order("KRW-XRP", round(0.2/round(ago_range/current_price,2),2)*(krw*0.9995)) #구매
-                    # 변동성 조절로 내재산2% 코인자산 20% 변동 픽스?
+                while True:
+                    if(flag):
+                        if krw > 5000: #krw가 내 잔고 내 전재산
+                            upbit.buy_market_order("KRW-XRP", round(0.2/round(ago_range/current_price,2),2)*(krw*0.9995)) #구매
+                            # 변동성 조절로 내재산2% 코인자산 20% 변동 픽스?
+                            flag = False
+
         else:
             XRP = get_balance("XRP")
             if XRP > 6.64962726:
                 upbit.sell_market_order("KRW-XRP", XRP*0.9995)
+                flag = True
         time.sleep(1)
     except Exception as e:
         print(e)
