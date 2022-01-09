@@ -64,7 +64,7 @@ while True:
                     # 변동성 조절로 내재산2% 코인자산 20% 변동 픽스?
         else:
             XRP = get_balance("XRP")
-            if XRP > 10.64962726:
+            if XRP > 6.64962726:
                 upbit.sell_market_order("KRW-XRP", XRP*0.9995)
         time.sleep(1)
     except Exception as e:
