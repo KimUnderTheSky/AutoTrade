@@ -49,10 +49,10 @@ print("autotrade start")
 while True:
     try:
         now = datetime.datetime.now()
-        start_time = get_start_time("KRW-ELF")
-        end_time = start_time + datetime.timedelta(days=1)
-
-        if start_time < now < end_time - datetime.timedelta(seconds=10):
+        start_time = get_start_time("KRW-ELF") #09:00
+        end_time = start_time + datetime.timedelta(days=1) #09:00 +1일
+        #9시부터 다음날 8시 59분 50초까지 실행
+        if start_time < now < end_time - datetime.timedelta(seconds=10): 
             target_price = get_target_price("KRW-ELF", 0.5)
             ma5 = get_ma5("KRW-ELF")
             current_price = get_current_price("KRW-ELF")
@@ -63,14 +63,14 @@ while True:
                         if krw > 5000: #krw가 내 잔고 내 전재산
                             df_public = pyupbit.get_ohlcv("KRW-ELF", interval="day", count=2)
                             ago_range = df_public.iloc[0]['high'] - df_public.iloc[0]['low'] #전일변동성
-                            ago_range1 = round(ago_range/current_price,2)
-                            upbit.buy_market_order("KRW-ELF", round((0.2/ago_range1)/2,2)*(krw*0.9995)) #구매
-                            # 변동성 조절로 내재산2% 코인자산 20% 변동 픽스?
+                            ago_range1 = ago_range/current_price #(0.2/ago_range1)/2이 퍼센테이지로 나와야함
+                            upbit.buy_market_order("KRW-ELF", ((0.2/ago_range1)/(100*2))*(krw*0.9995)) #구매
+                            # 변동성 조절로 내재산2% 코인자산 20% 변동 픽스? 현재 사는과정에 문제가있음
                             flag = False #한번 사면 False값 넣음
 
         else:
             ELF = get_balance("ELF")
-            if ELF > round(5000/get_current_price("KRW-ELF"),3):
+            if ELF > 5000/get_current_price("KRW-ELF"):
                 upbit.sell_market_order("KRW-ELF", ELF*0.9995)
                 flag = True
         time.sleep(1)
