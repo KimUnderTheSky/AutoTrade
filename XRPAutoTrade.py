@@ -63,7 +63,8 @@ while True:
                         if krw > 5000: #krw가 내 잔고 내 전재산
                             df_public = pyupbit.get_ohlcv("KRW-XRP", interval="day", count=2)
                             ago_range = df_public.iloc[0]['high'] - df_public.iloc[0]['low'] #전일변동성
-                            upbit.buy_market_order("KRW-XRP", round(0.2/round(ago_range/current_price,2),2)*(krw*0.9995)) #구매
+                            ago_range1 = round(ago_range/current_price,2)
+                            upbit.buy_market_order("KRW-XRP", round((0.2/ago_range1)/2,2)*(krw*0.9995)) #구매
                             # 변동성 조절로 내재산2% 코인자산 20% 변동 픽스?
                             flag = False #한번 사면 False값 넣음
 
