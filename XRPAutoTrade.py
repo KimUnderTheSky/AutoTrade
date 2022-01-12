@@ -49,10 +49,10 @@ print("autotrade start")
 while True:
     try:
         now = datetime.datetime.now()
-        start_time = get_start_time("KRW-XRP")
-        end_time = start_time + datetime.timedelta(days=1)
-
-        if start_time < now < end_time - datetime.timedelta(seconds=10):
+        start_time = get_start_time("KRW-XRP") #09:00
+        end_time = start_time + datetime.timedelta(days=1) #09:00 +1일
+        #9시부터 다음날 8시 59분 50초까지 실행
+        if start_time < now < end_time - datetime.timedelta(seconds=10): 
             target_price = get_target_price("KRW-XRP", 0.5)
             ma5 = get_ma5("KRW-XRP")
             current_price = get_current_price("KRW-XRP")
@@ -64,10 +64,11 @@ while True:
                             df_public = pyupbit.get_ohlcv("KRW-XRP", interval="day", count=2)
                             ago_range = df_public.iloc[0]['high'] - df_public.iloc[0]['low'] #전일변동성
                             ago_range1 = ago_range/current_price #(0.2/ago_range1)/2이 퍼센테이지로 나와야함
-                            upbit.buy_market_order("KRW-XRP", ((0.2/ago_range1)/(100*2))*(krw*0.9995)) #구매
-                            # 변동성 조절로 내재산2% 코인자산 20% 변동 픽스? 현재 사는과정에 문제가있음
-                            flag = False #한번 사면 False값 넣음
-
+                            total = ((0.2/ago_range1)/(100*4))*(krw*0.9995)  # 변동성 조절로 내재산2% 코인자산 20% 변동 픽스
+                             #구매
+                            if total > 5000: # 총투자 금액이 5000이상이어야 buy
+                                upbit.buy_market_order("KRW-XRP", total)
+                                flag = False #한번 사면 False값 넣음                            
         else:
             XRP = get_balance("XRP")
             if XRP > 5000/get_current_price("KRW-XRP"):

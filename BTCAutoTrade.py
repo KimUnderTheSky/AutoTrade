@@ -49,30 +49,30 @@ print("autotrade start")
 while True:
     try:
         now = datetime.datetime.now()
-        start_time = get_start_time("KRW-ELF") #09:00
+        start_time = get_start_time("KRW-BTC") #09:00
         end_time = start_time + datetime.timedelta(days=1) #09:00 +1일
         #9시부터 다음날 8시 59분 50초까지 실행
         if start_time < now < end_time - datetime.timedelta(seconds=10): 
-            target_price = get_target_price("KRW-ELF", 0.5)
-            ma5 = get_ma5("KRW-ELF")
-            current_price = get_current_price("KRW-ELF")
+            target_price = get_target_price("KRW-BTC", 0.5)
+            ma5 = get_ma5("KRW-BTC")
+            current_price = get_current_price("KRW-BTC")
             if target_price < current_price and ma5 < current_price: #현재가가 target price이상이고 5일 이평선 이상일때
                 krw = get_balance("KRW")
                 while True:
                     if(flag): #flag가 True이면 매수
                         if krw > 5000: #krw가 내 잔고 내 전재산
-                            df_public = pyupbit.get_ohlcv("KRW-ELF", interval="day", count=2)
+                            df_public = pyupbit.get_ohlcv("KRW-BTC", interval="day", count=2)
                             ago_range = df_public.iloc[0]['high'] - df_public.iloc[0]['low'] #전일변동성
                             ago_range1 = ago_range/current_price #(0.2/ago_range1)/2이 퍼센테이지로 나와야함
                             total = ((0.2/ago_range1)/(100*4))*(krw*0.9995)  # 변동성 조절로 내재산2% 코인자산 20% 변동 픽스
                              #구매
                             if total > 5000: # 총투자 금액이 5000이상이어야 buy
-                                upbit.buy_market_order("KRW-ELF", total)
+                                upbit.buy_market_order("KRW-BTC", total)
                                 flag = False #한번 사면 False값 넣음                            
         else:
-            ELF = get_balance("ELF")
-            if ELF > 5000/get_current_price("KRW-ELF"):
-                upbit.sell_market_order("KRW-ELF", ELF*0.9995)
+            BTC = get_balance("BTC")
+            if BTC > 5000/get_current_price("KRW-BTC"):
+                upbit.sell_market_order("KRW-BTC", BTC*0.9995)
                 flag = True
         time.sleep(1)
     except Exception as e:
