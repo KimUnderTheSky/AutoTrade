@@ -72,8 +72,8 @@ while True:
         else:
             XRP = get_balance("XRP")
             if XRP > 5000/get_current_price("KRW-XRP"):
-                upbit.sell_market_order("KRW-XRP", XRP*0.9995)
-                flag = True
+                upbit.sell_market_order("KRW-XRP", XRP*0.9995) 
+            flag = True
         time.sleep(1)
     except Exception as e:
         print(e)

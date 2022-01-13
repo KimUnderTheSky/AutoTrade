@@ -73,7 +73,7 @@ while True:
             ETH = get_balance("ETH")
             if ETH > 5000/get_current_price("KRW-ETH"):
                 upbit.sell_market_order("KRW-ETH", ETH*0.9995)
-                flag = True
+            flag = True
         time.sleep(1)
     except Exception as e:
         print(e)

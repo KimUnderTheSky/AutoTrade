@@ -73,7 +73,7 @@ while True:
             ELF = get_balance("ELF")
             if ELF > 5000/get_current_price("KRW-ELF"):
                 upbit.sell_market_order("KRW-ELF", ELF*0.9995)
-                flag = True
+            flag = True
         time.sleep(1)
     except Exception as e:
         print(e)
