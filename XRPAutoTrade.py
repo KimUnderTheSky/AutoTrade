@@ -49,7 +49,7 @@ print("autotrade start")
 while True:
     try:
         now = datetime.datetime.now()
-        start_time = get_start_time("KRW-XRP") #09:00
+        start_time = get_start_time("KRW-XRP")#09:00
         end_time = start_time + datetime.timedelta(days=1) #09:00 +1일
         #9시부터 다음날 8시 59분 50초까지 실행
         if start_time < now < end_time - datetime.timedelta(seconds=10): 
@@ -58,7 +58,7 @@ while True:
             current_price = get_current_price("KRW-XRP")
             if target_price < current_price and ma5 < current_price: #현재가가 target price이상이고 5일 이평선 이상일때
                 krw = get_balance("KRW")
-                while True:
+                while flag == True: #flag가 False면 반복문 나감
                     if(flag): #flag가 True이면 매수
                         if krw > 5000: #krw가 내 잔고 내 전재산
                             df_public = pyupbit.get_ohlcv("KRW-XRP", interval="day", count=2)
