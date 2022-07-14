@@ -58,17 +58,17 @@ while True:
             current_price = get_current_price("KRW-XRP")
             if target_price < current_price and ma5 < current_price: #현재가가 target price이상이고 5일 이평선 이상일때
                 krw = get_balance("KRW")
-                while flag == True: #flag가 False면 반복문 나감
-                    if(flag): #flag가 True이면 매수
-                        if krw > 5000: #krw가 내 잔고 내 전재산
-                            df_public = pyupbit.get_ohlcv("KRW-XRP", interval="day", count=2)
-                            ago_range = df_public.iloc[0]['high'] - df_public.iloc[0]['low'] #전일변동성
-                            ago_range1 = ago_range/current_price #(0.2/ago_range1)/2이 퍼센테이지로 나와야함
-                            total = ((0.05/ago_range1)/5)*(krw*0.9995)  # 변동성 조절로 내재산2% 코인자산 20% 변동 픽스
+                #while flag == True: #flag가 False면 반복문 나감
+                if(flag): #flag가 True이면 매수
+                    if krw > 5000: #krw가 내 잔고 내 전재산
+                        df_public = pyupbit.get_ohlcv("KRW-XRP", interval="day", count=2)
+                        ago_range = df_public.iloc[0]['high'] - df_public.iloc[0]['low'] #전일변동성
+                        ago_range1 = ago_range/current_price #(0.2/ago_range1)/2이 퍼센테이지로 나와야함
+                        total = ((0.05/ago_range1)/5)*(krw*0.9995)  # 변동성 조절로 내재산2% 코인자산 20% 변동 픽스
                              #구매
-                            if total > 5000: # 총투자 금액이 5000이상이어야 buy
-                                upbit.buy_market_order("KRW-XRP", total)
-                                flag = False #한번 사면 False값 넣음                            
+                        if total > 5000: # 총투자 금액이 5000이상이어야 buy
+                            upbit.buy_market_order("KRW-XRP", total)
+                            flag = False #한번 사면 False값 넣음                            
         else:
             XRP = get_balance("XRP")
             if XRP > 5000/get_current_price("KRW-XRP"):
