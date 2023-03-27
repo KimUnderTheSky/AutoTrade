@@ -4,7 +4,7 @@ import datetime
 
 access = "your-access"
 secret = "your-secret"
-flag = True #1번만 매수 저장되라고 저장안되냐고
+flag = True
 
 
 
